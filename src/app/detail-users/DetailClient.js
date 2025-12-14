@@ -1,5 +1,5 @@
 'use client';
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdEdit, MdOutlineMode } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import ProtectedRoutes from '../components/ProtectedHocs';
 import { useEffect, useState } from "react";
