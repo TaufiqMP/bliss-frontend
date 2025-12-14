@@ -263,11 +263,11 @@ const getNasabah = async () => {
   return { error: false, data: responseJson.data };
 }
 
-const getNasabahSpecific = async (user_id) => {
+const getNasabahSpecific = async (userId) => {
   try {
     const response = await fetch(`${BASE_URL}/nasabah/specific`, {
       method: "POST",
-      body: JSON.stringify({ user_id })
+      body: JSON.stringify({ user_id : userId })
     });
     const responseJson = await response.json();
 
