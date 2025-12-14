@@ -33,7 +33,7 @@ export default async function DashboardServer() {
 
   return (
     <>
-      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={count.count} user={userData.data} />
+      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={count} user={userData.data} />
     </>
   )
 }
