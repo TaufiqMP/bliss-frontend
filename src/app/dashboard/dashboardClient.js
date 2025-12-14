@@ -67,6 +67,7 @@ function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
 
   const handleLogout = async () => {
     await logoutUser();
+    document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     router.push("/login");
   }
 

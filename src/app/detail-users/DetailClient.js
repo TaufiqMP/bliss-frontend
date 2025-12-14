@@ -39,7 +39,6 @@ function DetailsUsersPage({ user, token, userId }) {
         const formData = new FormData();
         formData.append('profileImage', file);
         const user_id = userId;
-        console.log('user', user_id)
         try {
             const response = await fetch(`${baseUrl}/users/upload/${user_id}`, {
                 method: 'POST',
@@ -47,7 +46,6 @@ function DetailsUsersPage({ user, token, userId }) {
                 body: formData
             });
             const responseJson = await response.json();
-            console.log('tes', responseJson.data.imageUrl)
 
             if (response.ok && responseJson.status === 'success') {
                 const newImageUrl = responseJson.data.imageUrl;

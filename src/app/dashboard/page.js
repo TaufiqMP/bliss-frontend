@@ -10,7 +10,6 @@ export default async function DashboardServer() {
   const data = await getNasabah();
 
   const token = await getAccessToken();
-  console.log(`INI TOKENNNNNNNNN : ${token}`);
 
   const userId = await decodeAccessToken();
 
