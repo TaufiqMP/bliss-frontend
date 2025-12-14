@@ -7,9 +7,8 @@ export default function DetailPopup({ isOpen, onClose, data, setData, setNasabah
   const [newStatus, setNewStatus] = useState("");
 
   const handleSaveStatus = async (data) => {
-  const cleanId = parseInt(data.id.split("-")[1], 10);
 
-  await editNasabahData({ status: newStatus }, cleanId);
+  await editNasabahData({ status: newStatus }, data.id);
 
   if (newStatus === "CLOSED APPROVED") {
     await incrementLeaderboard(userId, token);
