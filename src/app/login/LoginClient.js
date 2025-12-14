@@ -23,6 +23,7 @@ export default function LoginPage() {
       const data = await login(email, password);
       
       if (data.success) {
+        document.cookie = `accessToken=${data.accessToken}; path=/; max-age=${15 * 60}; secure; samesite=strict`;
         console.log("Cookie after login:", document.cookie);
         
         await new Promise(resolve => setTimeout(resolve, 100));
