@@ -10,7 +10,7 @@ export async function decodeAccessToken() {
 
     console.log(decoded);
 
-    return decoded.user_id;
+    return decoded;
   } catch (err) {
     console.error("Failed to decode access token:", err.message);
     return null;

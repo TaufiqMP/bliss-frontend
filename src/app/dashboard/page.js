@@ -12,15 +12,21 @@ export default async function DashboardServer() {
 
   const token = await getAccessToken();
 
-  const userId = await decodeAccessToken();
+  const decoded = await decodeAccessToken();
 
-  const data = await getNasabahSpecific(userId);
+  let data;
+
+  if (decoded.role_id === 1) {
+    data = await getNasabah();
+  } else {
+    data = await getNasabahSpecific(decoded.user_id);
+  }
 
   const topthree = await getTopThreeUsers();
 
-  const openClosed = await getCount(userId);
+  const openClosed = await getCount(decoded.user_id);
 
-  const userData = await getUserData(userId, token);
+  const userData = await getUserData(decoded.user_id, token);
 
   if (!token || !userId) {
     redirect("/login");
@@ -29,7 +35,7 @@ export default async function DashboardServer() {
 
   return (
     <>
-      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={openClosed} user={userData.data} />
+      <DashboardClient data={data.data} token={token} userId={decoded.user_id} topThree={topthree} openClosed={openClosed} user={userData.data} />
     </>
   )
 }
