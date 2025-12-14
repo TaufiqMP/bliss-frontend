@@ -267,7 +267,7 @@ const getNasabahSpecific = async (user_id) => {
   try {
     const response = await fetch(`${BASE_URL}/nasabah/specific`, {
       method: "POST",
-      body: user_id
+      body: JSON.stringify({ user_id })
     });
     const responseJson = await response.json();
 
