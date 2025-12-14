@@ -200,20 +200,21 @@ const getCountAdmin = async () => {
   try {
     const response = await fetch(`${BASE_URL}/nasabah/counts/admin`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
+
     const responseJson = await response.json();
+
     if (responseJson.status !== "success") {
       return { error: true, data: null };
     }
+
     return { error: false, data: responseJson.data };
   } catch (error) {
     console.error("getCountAdmin error:", error);
     return { error: true, data: null };
   }
 };
+
 
 
 const getUserData = async (userId, token) => {
