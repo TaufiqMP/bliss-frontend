@@ -251,4 +251,16 @@ const uploadCSV = async (file) => {
   return response.json();
 };
 
-export { uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
+const getNasabah = async () => {
+  const response = await fetch(`${BASE_URL}/nasabah`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const responseJson = await response.json();
+  if (responseJson.status !== "success") {
+    return { error: true, data: null };
+  }
+  return { error: false, data: responseJson.data };
+}
+
+export { getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
