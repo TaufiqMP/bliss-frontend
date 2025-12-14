@@ -5,13 +5,16 @@ import { getNasabah, getTopThreeUsers } from "@/utils/api";
 import { getCount } from "@/utils/api";
 import { getUserData } from "@/utils/api";
 import { redirect } from "next/navigation";
+import { getNasabahSpecific } from "@/utils/api";
 
 export default async function DashboardServer() {
-  const data = await getNasabah();
+
 
   const token = await getAccessToken();
 
   const userId = await decodeAccessToken();
+
+  const data = await getNasabahSpecific(userId);
 
   const topthree = await getTopThreeUsers();
 
