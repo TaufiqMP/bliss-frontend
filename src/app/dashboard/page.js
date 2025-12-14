@@ -22,7 +22,14 @@ export default async function DashboardServer() {
   }
 
   const topthree = await getTopThreeUsers();
-  const openClosed = await getCount(userId);
+
+  let count;
+  if (userData?.data?.user?.role_id == 1) {
+    count = await getCountAdmin();
+  } else {
+    count = await getCount(userId);
+  }
+
 
   return (
     <>

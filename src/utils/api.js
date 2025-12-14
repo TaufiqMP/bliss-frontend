@@ -196,6 +196,26 @@ const getCount = async (userId) => {
   }
 };
 
+const getCountAdmin = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/nasabah/counts/admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseJson = await response.json();
+    if (responseJson.status !== "success") {
+      return { error: true, data: null };
+    }
+    return { error: false, data: responseJson.data };
+  } catch (error) {
+    console.error("getCountAdmin error:", error);
+    return { error: true, data: null };
+  }
+};
+
+
 const getUserData = async (userId, token) => {
   try {
     const response = await fetch(`${BASE_URL}/users/${userId}`, {
@@ -288,4 +308,4 @@ const getNasabahSpecific = async (userId) => {
 };
 
 
-export { getNasabahSpecific, getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
+export { getNasabahSpecific, getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getCountAdmin, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
