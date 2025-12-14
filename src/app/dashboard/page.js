@@ -1,5 +1,4 @@
 import DashboardClient from "./dashboardClient";
-import { getAccessToken } from "@/utils/cookies";
 import { decodeAccessToken } from "@/utils/jwt";
 import { getTopThreeUsers } from "@/utils/api";
 import { getCount } from "@/utils/api";
@@ -15,7 +14,7 @@ export default async function DashboardServer() {
 
   const topthree = await getTopThreeUsers();
 
-  const openClosed = await getCount(userId);
+  //const openClosed = await getCount(userId);
   
   //const userData = await getUserData(userId, token);
 
@@ -28,7 +27,7 @@ export default async function DashboardServer() {
 
   return (
     <>
-      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={openClosed} user={userData.data} />
+      <DashboardClient data={data.data} topThree={topthree} />
     </>
   )
 }
