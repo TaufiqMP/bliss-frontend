@@ -1,5 +1,4 @@
 import React, { useState, useEffect, use } from "react";
-import { getTotalNasabah, getTotalNasabahPrioritas } from "@/utils/api";
 export default function CardAdmin() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [customerData, setCustomerData] = useState(null);
@@ -75,7 +74,6 @@ export default function CardAdmin() {
                 </div>
                 <p className="text-2xl font-semibold text-gray-900">{loading ? '...' : priorityData}</p>
             </div>
-            {/*ini keknnya entar mau diganti pake customer yang udah diclosed*/}
             <div className="flex flex-1 flex-col items-center justify-center group relative overflow-hidden rounded-2xl p-6 bg-card border-2 border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1">
                 <span className="text-sm text-gray-700 font-medium">High Priority Customer Percentage</span>
                 <div className="radial-progress bg-gray-100 text-[#3C0075] my-1" style={{ "--value": percentageCustPriority }} aria-valuenow={100} role="progressbar">
