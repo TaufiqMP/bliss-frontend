@@ -252,7 +252,7 @@ const uploadCSV = async (file) => {
 };
 
 const getNasabah = async () => {
-  const response = await fetch(`${BASE_URL}/nasabah`, {
+  const response = await fetch(`${BASE_URL}/nasabah/`, {
     method: "GET",
     credentials: "include",
   });
