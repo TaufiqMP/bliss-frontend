@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BLISS – Web Application with Machine Learning Integration
 
-## Getting Started
+## Deskripsi Singkat Proyek
+BLISS adalah aplikasi berbasis web yang mengintegrasikan **Frontend**, **Backend API**, dan **Machine Learning Service**. Aplikasi ini dikembangkan dengan arsitektur terpisah (separate services) agar mudah dikelola, dikembangkan, dan di-deploy. Sistem BLISS memungkinkan pengguna berinteraksi melalui antarmuka web, memproses data melalui Backend, serta memanfaatkan model Machine Learning untuk kebutuhan analisis dan prediksi.
 
-First, run the development server:
+## Tautan Deployment
+- **Frontend (Vercel)**  
+  https://bliss-frontend-opal.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Backend API (Railway)**  
+  https://bliss-backend-production.up.railway.app
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Machine Learning Service (Railway)**  
+  https://bliss-model-service-production.up.railway.app
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Model Machine Learning (Google Drive)**  
+  https://drive.google.com/drive/folders/1CEPcDeGrDvWUowlbDMS4jFBL8PWJLLNV?usp=sharing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tautan Model Machine Learning
+Model Machine Learning **tidak disimpan langsung di repository** dan disediakan melalui Google Drive.
 
-## Learn More
+🔗 Tautan model:
+https://drive.google.com/drive/folders/1CEPcDeGrDvWUowlbDMS4jFBL8PWJLLNV?usp=sharing
 
-To learn more about Next.js, take a look at the following resources:
+## Petunjuk Penggunaan Aplikasi
+1. Buka aplikasi melalui browser:
+   https://bliss-frontend-opal.vercel.app/
+2. Pengguna melakukan login atau registrasi
+3. Frontend mengirim request ke Backend API
+4. Backend memproses data dan memanggil Model Machine Learning jika diperlukan
+5. Hasil pemrosesan ditampilkan kembali ke pengguna melalui frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Teknologi yang Digunakan Pada BLISS
+- Frontend: Next.js 14, React 18, Tailwind CSS
+- Backend: Node.js, Express.js
+- Machine Learning: TensorFlow.js
+- Database: PostgreSQL
+- Authentication: JSON Web Token (JWT)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© BLISS Project
