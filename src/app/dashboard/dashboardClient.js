@@ -24,7 +24,7 @@ function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
   const [sortBy, setSortBy] = useState("");
   const getGreetingMessage = getGreeting();
   const router = useRouter();
-  console.log(`DATA ${data}`);
+  console.log(openClosed);
 
   //ni harusnya jgn disini tpi ntar dibeenrin dh
   const sortedNasabah = [...filteredNasabah].sort((a, b) => {
