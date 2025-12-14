@@ -6,7 +6,7 @@ import { getUsersById } from "@/utils/api";
 import CardAdmin from "../components/adminPage/CardAdmin";
 import { Inter } from 'next/font/google'
 import UsersTable from "../components/adminPage/TableUsers";
-import { updateCSV } from "@/utils/api";
+import { uploadCSV } from "@/utils/api";
 // import ProtectedRoutes from "../components/ProtectedHocs";
 import ProtectedRoutesAdmin from "../components/ProtectedHocsAdmin";
 
