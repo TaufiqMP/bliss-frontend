@@ -1,4 +1,4 @@
-# BLISS – Web Application with Machine Learning Integration
+gi# BLISS – Web Application with Machine Learning Integration
 
 ## Deskripsi Singkat Proyek
 BLISS adalah aplikasi berbasis web yang mengintegrasikan **Frontend**, **Backend API**, dan **Machine Learning Service**. Aplikasi ini dikembangkan dengan arsitektur terpisah (separate services) agar mudah dikelola, dikembangkan, dan di-deploy. Sistem BLISS memungkinkan pengguna berinteraksi melalui antarmuka web, memproses data melalui Backend, serta memanfaatkan model Machine Learning untuk kebutuhan analisis dan prediksi.
@@ -25,7 +25,7 @@ https://drive.google.com/drive/folders/1CEPcDeGrDvWUowlbDMS4jFBL8PWJLLNV?usp=sha
 ## Petunjuk Penggunaan Aplikasi
 1. Buka aplikasi melalui browser:
    https://bliss-frontend-opal.vercel.app/
-2. Pengguna melakukan login atau registrasi
+2. Pengguna melakukan login
 3. Frontend mengirim request ke Backend API
 4. Backend memproses data dan memanggil Model Machine Learning jika diperlukan
 5. Hasil pemrosesan ditampilkan kembali ke pengguna melalui frontend
