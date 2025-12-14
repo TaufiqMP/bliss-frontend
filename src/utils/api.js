@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://bliss-backend-production.up.railway.app";
 
 const getSales = async () => {
   const response = await fetch(`${BASE_URL}/users/`);
@@ -239,7 +239,7 @@ const uploadCSV = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${BASE_URL_PREDICT}/predict`, {
+  const response = await fetch(`http://bliss-model-service-production.up.railway.app/predict`, {
     method: 'POST',
     body: formData,
   });
