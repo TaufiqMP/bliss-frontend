@@ -251,4 +251,4 @@ const uploadCSV = async (file) => {
   return response.json();
 };
 
-export { uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
+export { uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
