@@ -9,42 +9,29 @@ export default async function DashboardServer() {
 
   const decoded = await decodeAccessToken();
 
-  let data;
-
-  if (decoded.role_id === 1) {
-    data = await getNasabah();
-  } else {
-    data = await getNasabahSpecific(decoded.user_id);
-  }
-
   const topthree = await getTopThreeUsers();
 
   const openClosed = await getCount(decoded.user_id);
 
   const userData = await getUserData(decoded.user_id, token);
 
-  if (!token || !userId) {
-    redirect("/login");
-  }
-
-  const userData = await getUserData(userId, token);
-
   let data;
-  if (userData?.data?.user?.role_id == 1) {
+  if (decoded.role_id == 1) {
     data = await getNasabah();
   } else {
     data = await getNasabahSpecific(userId);
   }
 
-  const topthree = await getTopThreeUsers();
-
   let count;
-  if (userData?.data?.user?.role_id == 1) {
+  if (decoded.role_id == 1) {
     count = await getCountAdmin();
   } else {
     count = await getCount(userId);
   }
 
+  if (!token || !userId) {
+    redirect("/login");
+  }
 
   return (
     <>
