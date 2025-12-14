@@ -6,8 +6,14 @@ export default function DetailsUsersPage() {
         <div className="flex justify-center items-center h-screen">
             <div className="relative w-full max-w-4xl mx-auto border border-black/20 pb-10">
                 
-                {/* Top Section */}
+                {/* Top Section: Background + Profile */}
                 <div className="relative w-full h-60 rounded-lg overflow-visible shadow-md">
+                    <Image 
+                        src="/images/background.png"
+                        alt="background"
+                        fill
+                        className="object-contain"
+                    />
 
                     {/* Profile Picture */}
                     <div className="absolute -bottom-14 left-10">
