@@ -6,7 +6,7 @@ import LoadingPage from "./LoadingPage";
 
 const ProtectedRoutesAdmin = (Component) => {
     return (props) => {
-        const backendUrl = `http://localhost:3000/`;
+        const backendUrl = `http://bliss-backend-production.up.railway.app/`;
         const router = useRouter();
         const [isAuth, setIsAuth] = useState(null);
         const [user, setUser] = useState(null);

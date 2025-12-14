@@ -5,7 +5,7 @@ import AlertError from "../Alert";
 import { useState, useEffect } from "react";
 
 export default function UsersTable() {
-    const baseUrl = `http://localhost:3000`
+    const baseUrl = `http://bliss-backend-production.up.railway.app`
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
