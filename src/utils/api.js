@@ -199,7 +199,7 @@ const getCount = async (userId) => {
 const getCountAdmin = async () => {
   try {
     const response = await fetch(`${BASE_URL}/nasabah/counts/admin`, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
