@@ -263,4 +263,22 @@ const getNasabah = async () => {
   return { error: false, data: responseJson.data };
 }
 
-export { getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
+const getNasabahSpecific = async (user_id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/nasabah/specific`, {
+      method: "POST",
+      body: user_id
+    });
+    const responseJson = await response.json();
+
+    if (responseJson.status !== "success") {
+      return { error: true, data: null };
+    }
+    return { error: false, data: responseJson.data };
+  } catch (error) {
+    console.error("getNasabahSpecific error:", error);
+    return { error: true, data: null };
+  }
+}
+
+export { getNasabahSpecific, getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
