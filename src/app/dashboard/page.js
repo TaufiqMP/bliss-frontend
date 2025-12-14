@@ -7,7 +7,7 @@ import { getUserData } from "@/utils/api";
 import { redirect } from "next/navigation";
 
 export default async function DashboardServer() {
-  const res = await fetch('http://bliss-backend-production.up.railway.app/nasabah');
+  const res = await fetch('https://bliss-backend-production.up.railway.app/nasabah');
   const data = await res.json();
 
   const token = await getAccessToken();

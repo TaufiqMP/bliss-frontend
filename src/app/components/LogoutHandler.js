@@ -10,7 +10,7 @@ export default function LogoutHandler() {
       const data = JSON.stringify({ refreshToken });
 
       navigator.sendBeacon(
-        "http://bliss-backend-production.up.railway.app/auth/logout",
+        "https://bliss-backend-production.up.railway.app/auth/logout",
         new Blob([data], { type: "application/json" })
       );
     };

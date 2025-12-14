@@ -13,7 +13,7 @@ import { deleteUserById, getUsersById, uploadImageUser, editUserData } from "@/u
 
 export default function DetailsUsersAdminPage() {
     const { id } = useParams();
-    const baseUrl = `http://bliss-backend-production.up.railway.app`
+    const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [userData, setUserData] = useState(null);
     const [validationDelete, setValidationDelete] = useState(false);
     const [editModal, setEditModal] = useState(false);
