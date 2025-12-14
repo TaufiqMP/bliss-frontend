@@ -15,11 +15,13 @@ export async function login(email, password) {
     console.log('data', data);
 
     if (data.success) {
-      window.location.href = "/dashboard";
+      return data;
     } else {
       alert(data.message);
+      return data;
     }
   } catch (err) {
     console.error(err);
+    return { success: false, message: "Network error" };
   }
 }

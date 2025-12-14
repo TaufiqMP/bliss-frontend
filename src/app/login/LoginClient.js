@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); 
@@ -13,10 +14,27 @@ export default function LoginPage() {
 
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const handleSubmit = async (e, email, password) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await login(email, password);
+    setIsLoading(true);
+    
+    try {
+      const data = await login(email, password);
+      
+      if (data.success) {
+        console.log("Cookie after login:", document.cookie);
+        
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
 
   return (
     <div className="flex min-h-screen">
