@@ -1,7 +1,7 @@
 import DashboardClient from "./dashboardClient";
 import { getAccessToken } from "@/utils/cookies";
 import { decodeAccessToken } from "@/utils/jwt";
-import { getNasabah, getTopThreeUsers, getCount, getUserData, getNasabahSpecific } from "@/utils/api";
+import { getNasabah, getTopThreeUsers, getCount, getUserData, getNasabahSpecific, getCountAdmin } from "@/utils/api";
 import { redirect } from "next/navigation";
 
 export default async function DashboardServer() {
@@ -33,7 +33,7 @@ export default async function DashboardServer() {
 
   return (
     <>
-      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={openClosed} user={userData.data} />
+      <DashboardClient data={data.data} token={token} userId={userId} topThree={topthree} openClosed={count} user={userData.data} />
     </>
   )
 }
