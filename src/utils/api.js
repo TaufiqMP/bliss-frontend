@@ -179,7 +179,7 @@ const getTopThreeUsers = async () => {
 const getCount = async (userId) => {
   try {
     const response = await fetch(`${BASE_URL}/nasabah/counts`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
