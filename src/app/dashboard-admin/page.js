@@ -23,7 +23,7 @@ function AdminPage({ user }) {
     useEffect(() => {
     const nameAdmin = async () => {
                 try {
-                    const res = await fetch(`http://localhost:3000/users/${user.user_id}`, {
+                    const res = await fetch(`http://bliss-backend-production.up.railway.app/users/${user.user_id}`, {
                         credentials: "include"
                     });
                     const data = await res.json();

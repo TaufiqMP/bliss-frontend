@@ -1,7 +1,7 @@
 import AlertBox from "../components/Alert";
 
 export async function login(email, password) {
-  const backendUrl = "http://localhost:3000";
+  const backendUrl = "http://bliss-backend-production.up.railway.app";
 
   try {
     const res = await fetch(`${backendUrl}/auth/login`, {

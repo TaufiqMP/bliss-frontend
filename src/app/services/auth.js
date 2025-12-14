@@ -1,5 +1,5 @@
 export async function registerUser({ username, email, password }) {
-   const url = `http://localhost:3000/auth/register`;
+   const url = `http://bliss-backend-production.up.railway.app/auth/register`;
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
