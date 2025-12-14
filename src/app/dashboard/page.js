@@ -15,7 +15,7 @@ export default async function DashboardServer() {
   const userData = await getUserData(userId, token);
 
   let data;
-  if (userData?.data?.role_id === 1) {
+  if (userData?.data?.user?.role_id == 1) {
     data = await getNasabah();
   } else {
     data = await getNasabahSpecific(userId);
