@@ -10,13 +10,14 @@ export default async function DashboardServer() {
   const res = await fetch('https://bliss-backend-production.up.railway.app/nasabah');
   const data = await res.json();
 
-  const token = await getAccessToken();
-  const userId = await decodeAccessToken();
+  //const token = await getAccessToken();
+  //const userId = await decodeAccessToken();
 
   const topthree = await getTopThreeUsers();
 
   const openClosed = await getCount(userId);
-  const userData = await getUserData(userId, token);
+  
+  //const userData = await getUserData(userId, token);
 
   /*
   if (!userId) {

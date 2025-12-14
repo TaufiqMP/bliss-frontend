@@ -15,13 +15,23 @@ import Sidebar from "../components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import { logoutUser } from "@/utils/api";
+import { getAccessToken } from "@/utils/cookies";
+import { decodeAccessToken } from "@/utils/jwt";
+import { getUserData } from "@/utils/api";
+import { getCount } from "@/utils/api";
 
 import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] });
 
-function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
+function DashboardPage({ data, topThree }) {
   const [filteredNasabah, setFilteredNasabah] = useState(data);
   const [sortBy, setSortBy] = useState("");
+
+  const [token, setToken] = useState('');
+  const [userId, setUserId] = usestate('');
+  const [user, setUser] = useState({});
+  const [openClosed, setOpenClosed] = useState({});
+
   const getGreetingMessage = getGreeting();
   const router = useRouter();
   console.log("USER DATA:", JSON.stringify(user, null, 2));
@@ -69,6 +79,18 @@ function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
     await logoutUser();
     router.push("/login");
   }
+
+  useEffect(async () => {
+    const token = await getAccessToken();
+    const userId = await decodeAccessToken(token);
+    const user = await getUserData(userId, token);
+    const openClosed = await getCount(token);
+
+    setToken(token);
+    setUserId(userId);
+    setUser(user.data);
+    setOpenClosed(openClosed.data);
+  })
 
   return (
     <>
