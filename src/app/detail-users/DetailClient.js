@@ -41,7 +41,7 @@ function DetailsUsersPage({ user, token, userId }) {
         const user_id = userId;
         console.log('user', user_id)
         try {
-            const response = await fetch(`${baseUrl}/users/upload/user/${user_id}`, {
+            const response = await fetch(`${baseUrl}/users/upload/${user_id}`, {
                 method: 'POST',
                 credentials: "include",
                 body: formData
