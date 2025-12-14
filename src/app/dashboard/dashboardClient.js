@@ -111,7 +111,7 @@ function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
 
           <div className="flex flex-col justify-center items-center w-full">
             <div className="flex w-full md:w-[95%] h-auto px-4">
-              <CountCard openClosed={openClosed} />
+              <CountCard openClosed={openClosed.data} />
             </div>
             <div className="flex w-full md:w-[95%] h-auto mt-5 px-4">
               <Leaderboard topThree={topThree} />
