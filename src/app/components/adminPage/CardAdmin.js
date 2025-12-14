@@ -1,7 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import { getTotalNasabah, getTotalNasabahPrioritas } from "@/utils/api";
 export default function CardAdmin() {
-    const baseUrl = `http://bliss-backend-production.up.railway.app`
+    const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [customerData, setCustomerData] = useState(null);
     const [priorityData, setPriorityData] = useState(null)
     const [percentageCustPriority, setPercentage] = useState(null);
