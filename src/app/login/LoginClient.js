@@ -4,6 +4,7 @@ import { login } from "../services/login";
 import Image from "next/image";
 import Link from "next/link";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
