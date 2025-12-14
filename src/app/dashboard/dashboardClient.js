@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { dummyNasabah } from "../dummy/data";
 import { getGreeting } from "@/utils/timeUtils";
 import { useRouter } from "next/navigation";
-import ProtectedRoutes from "../components/ProtectedHocs";
 
 import CountCard from "../components/CountCard";
 import TableNasabah from "../components/TableNasabah";
@@ -15,7 +14,6 @@ import Sidebar from "../components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import { logoutUser } from "@/utils/api";
-import { getAccessToken } from "@/utils/cookies";
 import { decodeAccessToken } from "@/utils/jwt";
 import { getUserData } from "@/utils/api";
 import { getCount } from "@/utils/api";
@@ -28,15 +26,57 @@ function DashboardPage({ data, topThree }) {
   const [sortBy, setSortBy] = useState("");
 
   const [token, setToken] = useState('');
-  const [userId, setUserId] = usestate('');
-  const [user, setUser] = useState({});
+  const [userId, setUserId] = useState('');
+  const [user, setUser] = useState(null);
   const [openClosed, setOpenClosed] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const getGreetingMessage = getGreeting();
   const router = useRouter();
-  console.log("USER DATA:", JSON.stringify(user, null, 2));
 
-  //ni harusnya jgn disini tpi ntar dibeenrin dh
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // ✅ Ambil token dari cookies di client-side
+        const accessToken = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('accessToken='))
+          ?.split('=')[1];
+
+        if (!accessToken) {
+          router.push("/login");
+          return;
+        }
+
+        setToken(accessToken);
+
+        const decodedUserId = await decodeAccessToken(accessToken);
+        
+        if (!decodedUserId) {
+          router.push("/login");
+          return;
+        }
+
+        setUserId(decodedUserId);
+
+        const [userData, openClosedData] = await Promise.all([
+          getUserData(decodedUserId, accessToken),
+          getCount(decodedUserId)
+        ]);
+
+        setUser(userData.data);
+        setOpenClosed(openClosedData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        router.push("/login");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
+
   const sortedNasabah = [...filteredNasabah].sort((a, b) => {
     if (sortBy === "name") {
       const nameA = `${a.first_name || ""} ${a.last_name || ""}`.trim();
@@ -74,23 +114,22 @@ function DashboardPage({ data, topThree }) {
     return 0;
   });
 
-
   const handleLogout = async () => {
     await logoutUser();
     router.push("/login");
   }
 
-  useEffect(async () => {
-    const token = await getAccessToken();
-    const userId = await decodeAccessToken(token);
-    const user = await getUserData(userId, token);
-    const openClosed = await getCount(token);
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+  }
 
-    setToken(token);
-    setUserId(userId);
-    setUser(user.data);
-    setOpenClosed(openClosed.data);
-  })
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
@@ -104,7 +143,7 @@ function DashboardPage({ data, topThree }) {
             {/* Left side: greeting text */}
             <div className={`${inter.className} leading-tight`}>
               <p className="text-[24px] text-black font-semibold">
-                {getGreetingMessage}, {user.user.username}!
+                {getGreetingMessage}, {user.user?.username}!
               </p>
               <p className="text-[16px] text-black font-normal">
                 Predict. Prioritize. Perform.
@@ -119,7 +158,7 @@ function DashboardPage({ data, topThree }) {
               >
                 <div className="w-14 h-14 rounded-full ring ring-primary ring-offset-2 overflow-hidden mr-2">
                   <Image
-                    src={user.user.image_url || "/defaultProfile.png"}
+                    src={user.user?.image_url || "/defaultProfile.png"}
                     alt="Profile Picture"
                     width={56}
                     height={56}
