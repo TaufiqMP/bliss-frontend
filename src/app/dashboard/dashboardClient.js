@@ -139,4 +139,4 @@ function DashboardPage({ data, token, userId, topThree, openClosed, user }) {
   );
 }
 
-export default ProtectedRoutes(DashboardPage);
+export default DashboardPage;
