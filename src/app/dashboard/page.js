@@ -18,9 +18,11 @@ export default async function DashboardServer() {
   const openClosed = await getCount(userId);
   const userData = await getUserData(userId, token);
 
+  /*
   if (!userId) {
     redirect("/login");
   }
+    */
 
 
   return (
