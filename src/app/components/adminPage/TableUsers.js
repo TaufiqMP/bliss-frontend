@@ -1,8 +1,12 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
 import { useState, useEffect } from "react";
+import { decodeAccessToken } from "@/utils/jwt";
+import { exportLeaderboard } from "@/utils/api";
 
 export default function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`;
@@ -10,15 +14,25 @@ export default function UsersTable() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
+    const [userId, setUserId] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
+        const initialize = async () => {
+            try {
+                const id = await decodeAccessToken();
+                setUserId(id);
+            } catch (err) {
+                setError("Gagal mendekode token");
+            }
+        };
+
         const fetchData = async () => {
             try {
                 setLoading(true);
                 const response = await fetch(`${baseUrl}/users/`);
                 const responseJson = await response.json();
-                const { error, data } = responseJson; // remove unnecessary await
+                const { error, data } = responseJson;
                 if (error || !data || !data.users) {
                     throw new Error("Gagal mengambil data sales");
                 }
@@ -37,34 +51,51 @@ export default function UsersTable() {
                 setLoading(false);
             }
         };
-
+        
+        initialize();
         fetchData();
-    }, []);
+    }, [baseUrl]);
+
+    useEffect(() => {
+        if (toastMessage) {
+            const timeout = setTimeout(() => {
+                setToastMessage(null);
+            }, 1500);
+            return () => clearTimeout(timeout);
+        }
+    }, [toastMessage]);
 
     const handleRowClick = (userId) => {
         router.push(`/dashboard-admin/details-users/${userId}`);
     };
 
-    async function onExportHandler() {
+    async function onExportHandler(userId) {
+        if (!userId) {
+            setToastMessage({ type: 'error', text: 'User ID tidak ditemukan' });
+            return;
+        }
         try {
-            const response = await fetch(`${baseUrl}/export`, {
-                method: 'POST',
-                credentials: "include",
-            });
-            const responseJson = await response.json(); // remove unnecessary await
-            const { error } = responseJson;
-            if (!error) {
-                setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
+            const response = await exportLeaderboard(userId);
+            // Assuming exportLeaderboard returns the blob directly on success
+            if (response.ok) {
+                 setToastMessage({ type: 'success', text: 'Report berhasil dieksport!' });
+                 // Handle the file download
+                 const blob = await response.blob();
+                 const url = window.URL.createObjectURL(blob);
+                 const a = document.createElement('a');
+                 a.href = url;
+                 a.download = "leaderboard.xlsx";
+                 document.body.appendChild(a);
+                 a.click();
+                 a.remove();
+
             } else {
-                setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+                const responseJson = await response.json();
+                const { error } = responseJson;
+                setToastMessage({ type: 'error', text: error || 'Gagal mengeksport report' });
             }
         } catch (err) {
             setToastMessage({ type: 'error', text: 'Terjadi kesalahan saat export' });
-        } finally {
-            const timeout = setTimeout(() => {
-                setToastMessage(null);
-            }, 1500);
-            return () => clearTimeout(timeout); // cleanup
         }
     }
 
@@ -90,7 +121,7 @@ export default function UsersTable() {
                 <div className="flex justify-between items-center w-full mb-4">
                     <h2 className="text-xl font-bold text-gray-900">Leaderboard Users</h2>
                     <div className="flex items-center gap-2">
-                        <button onClick={onExportHandler} className="btn hover:bg-purple-500 bg-gray-200 w-max h-auto rounded-lg py-1 px-1 text-gray-900"><CiExport />Export</button>
+                        <button onClick={() => onExportHandler(userId)} className="btn hover:bg-purple-500 bg-gray-200 w-max h-auto rounded-lg py-1 px-1 text-gray-900"><CiExport />Export</button>
                     </div>
                 </div>
                 <table className="table w-full">
@@ -119,3 +150,4 @@ export default function UsersTable() {
         </>
     );
 }
+
