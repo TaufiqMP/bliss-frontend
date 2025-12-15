@@ -50,7 +50,8 @@ export default function CardAdmin() {
     useEffect(() => {
         const priorityCustPercentage = async () => {
             try {
-                const Percentage = priorityData / customerData * 100;
+                const rawPercentage = priorityData / customerData * 100;
+                const Percentage = Math.round(rawPercentage);
                 setPercentage(Percentage);
             } catch (error) {
                 throw error
