@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+export const dynamic = "force-dynamic";
+
 import DetailsUsersPage from "./DetailClient";
 import { redirect } from "next/navigation";
 import { getAccessToken } from "@/utils/cookies";
