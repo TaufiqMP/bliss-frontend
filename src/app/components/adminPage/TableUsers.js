@@ -5,13 +5,12 @@ import AlertError from "../Alert";
 import { useState, useEffect } from "react";
 
 export default function UsersTable() {
-    const baseUrl = `https://bliss-backend-production.up.railway.app`
+    const baseUrl = `https://bliss-backend-production.up.railway.app`;
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
     const router = useRouter();
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,7 +18,7 @@ export default function UsersTable() {
                 setLoading(true);
                 const response = await fetch(`${baseUrl}/users/`);
                 const responseJson = await response.json();
-                const { error, data } = await responseJson;
+                const { error, data } = responseJson; // remove unnecessary await
                 if (error || !data || !data.users) {
                     throw new Error("Gagal mengambil data sales");
                 }
@@ -47,23 +46,27 @@ export default function UsersTable() {
     };
 
     async function onExportHandler() {
-        const response = await fetch(`${baseUrl}/export`, {
-            method: 'POST',
-            credentials: "include",
-        });
-        const responseJson = await response.json();
-        const { error } = await responseJson;
-        if (!error) {
-            setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
-        } else {
-            setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
-        }
-        setTimeout(() => {
-            setToastMessage(null);
+        try {
+            const response = await fetch(`${baseUrl}/export`, {
+                method: 'POST',
+                credentials: "include",
+            });
+            const responseJson = await response.json(); // remove unnecessary await
+            const { error } = responseJson;
+            if (!error) {
+                setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
+            } else {
+                setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+            }
+        } catch (err) {
+            setToastMessage({ type: 'error', text: 'Terjadi kesalahan saat export' });
+        } finally {
+            const timeout = setTimeout(() => {
+                setToastMessage(null);
             }, 1500);
+            return () => clearTimeout(timeout); // cleanup
         }
     }
-
 
     if (loading) {
         return <div className="text-center p-6 bg-white rounded-lg shadow-md">Memuat data...</div>;
@@ -100,25 +103,14 @@ export default function UsersTable() {
                             <th className="font-semibold">Score</th>
                         </tr>
                     </thead>
-                    {/* BODY (Data Baris) */}
                     <tbody>
                         {usersData.map((user) => (
                             <tr key={user.id} onClick={() => handleRowClick(user.id)} className="hover:bg-gray-100 text-gray-900 transition-colors border border-gray-200 rounded-lg cursor-pointer text-center">
-                                <td>
-                                    <div className="font-bold">{user.peringkat}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.id}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.username}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.email}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.score}</div>
-                                </td>
+                                <td><div className="font-bold">{user.peringkat}</div></td>
+                                <td><div className="font-bold">{user.id}</div></td>
+                                <td><div className="font-bold">{user.username}</div></td>
+                                <td><div className="font-bold">{user.email}</div></td>
+                                <td><div className="font-bold">{user.score}</div></td>
                             </tr>
                         ))}
                     </tbody>
