@@ -2,14 +2,18 @@ import { useRouter } from "next/navigation";
 import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
+import { decodeAccessToken } from "@/utils/jwt";
 import { useState, useEffect } from "react";
+import { exportLeaderboard } from "@/utils/api";
 
-export default function UsersTable() {
+export default async function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
+    const userId = await decodeAccessToken();
+
     const router = useRouter();
 
     useEffect(() => {
@@ -46,10 +50,7 @@ export default function UsersTable() {
     };
 
     async function onExportHandler() {
-        const response = await fetch(`${baseUrl}/export`, {
-            method: 'POST',
-            credentials: "include",
-        });
+        const response = await exportLeaderboard(userId);
         const responseJson = await response.json();
         const { error } = await responseJson;
         if (!error) {
