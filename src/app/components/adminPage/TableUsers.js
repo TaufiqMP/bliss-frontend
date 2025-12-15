@@ -2,19 +2,17 @@ import { useRouter } from "next/navigation";
 import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
-import { decodeAccessToken } from "@/utils/jwt";
 import { useState, useEffect } from "react";
-import { getAccessToken } from "@/utils/cookies";
+import { exportLeaderboard } from "@/utils/api";
 
-export default async function UsersTable() {
+export default async function UsersTable({userId}) {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
     const router = useRouter();
-    const token = await getAccessToken();
-    const userId = await decodeAccessToken(token);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,34 +48,25 @@ export default async function UsersTable() {
     };
 
     async function onExportHandler() {
-    try {
-        const response = await fetch(`${baseUrl}/export`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user_id: userId,
-        }),
-        });
+        try {
+            const responseJson = await exportLeaderboard(userId); 
 
-        const responseJson = await response.json();
-        const { error } = responseJson;
+            const { error } = responseJson;
 
-        if (!error) {
-        setToastMessage({ type: "success", text: "report berhasil dieksport!" });
-        } else {
-        setToastMessage({ type: "error", text: "Gagal mengeksport report" });
+            if (!error) {
+            setToastMessage({ type: "success", text: "report berhasil dieksport!" });
+            } else {
+            setToastMessage({ type: "error", text: "Gagal mengeksport report" });
+            }
+        } catch (err) {
+            setToastMessage({ type: "error", text: "Terjadi kesalahan saat export" });
+        } finally {
+            setTimeout(() => {
+            setToastMessage(null);
+            }, 1500);
         }
-    } catch (err) {
-        setToastMessage({ type: "error", text: "Terjadi kesalahan saat export" });
-    } finally {
-        setTimeout(() => {
-        setToastMessage(null);
-        }, 1500);
     }
-    }
+
 
     if (loading) {
         return <div className="text-center p-6 bg-white rounded-lg shadow-md">Memuat data...</div>;
