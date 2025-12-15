@@ -3,14 +3,18 @@ import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
 import { useState, useEffect } from "react";
+import { getAccessToken } from "@/utils/cookies";
+import { decodeAccessToken } from "@/utils/jwt";
 
-export default function UsersTable() {
+export default async function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
     const router = useRouter();
+    const token = await getAccessToken();
+    const userId = await decodeAccessToken(token);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,20 +50,33 @@ export default function UsersTable() {
     };
 
     async function onExportHandler() {
+    try {
         const response = await fetch(`${baseUrl}/export`, {
-            method: 'POST',
-            credentials: "include",
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            user_id: userId,
+        }),
         });
+
         const responseJson = await response.json();
-        const { error } = await responseJson;
+        const { error } = responseJson;
+
         if (!error) {
-            setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
+        setToastMessage({ type: "success", text: "report berhasil dieksport!" });
         } else {
-            setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+        setToastMessage({ type: "error", text: "Gagal mengeksport report" });
         }
+    } catch (err) {
+        setToastMessage({ type: "error", text: "Terjadi kesalahan saat export" });
+    } finally {
         setTimeout(() => {
-            setToastMessage(null);
+        setToastMessage(null);
         }, 1500);
+    }
     }
 
     if (loading) {
