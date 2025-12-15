@@ -9,6 +9,7 @@ import UserProfile from "./UsersProfile";
 import LoadingPage from "../LoadingPage";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
+import NotFoundPage from "../NotFoundPage";
 import { deleteUserById, getUsersById, uploadImageUser, editUserData } from "@/utils/api";
 
 export default function DetailsUsersAdminPage() {
@@ -45,7 +46,7 @@ export default function DetailsUsersAdminPage() {
 
     if (loading) return <div className="text-enter p-10"><LoadingPage /></div>;
     if (error) return <div className="text-centcer p-10 text-red-500">Error: {error}</div>;
-    if (!userData) return <div className="text-center p-10">User tidak ditemukan.</div>;
+    if (!userData) return <NotFoundPage />;
 
     async function onDeleteHandler() {
         const { error } = await deleteUserById(userData.user_id);
