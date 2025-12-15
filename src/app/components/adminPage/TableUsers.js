@@ -2,18 +2,14 @@ import { useRouter } from "next/navigation";
 import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
-import { decodeAccessToken } from "@/utils/jwt";
 import { useState, useEffect } from "react";
-import { exportLeaderboard } from "@/utils/api";
 
-export default async function UsersTable() {
-    const baseUrl = `https://bliss-backend-production.up.railway.app`
+export default function UsersTable() {
+    const baseUrl = `https://bliss-backend-production.up.railway.app`;
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
-    const userId = await decodeAccessToken();
-
     const router = useRouter();
 
     useEffect(() => {
@@ -22,7 +18,7 @@ export default async function UsersTable() {
                 setLoading(true);
                 const response = await fetch(`${baseUrl}/users/`);
                 const responseJson = await response.json();
-                const { error, data } = await responseJson;
+                const { error, data } = responseJson; // remove unnecessary await
                 if (error || !data || !data.users) {
                     throw new Error("Gagal mengambil data sales");
                 }
@@ -50,17 +46,26 @@ export default async function UsersTable() {
     };
 
     async function onExportHandler() {
-        const response = await exportLeaderboard(userId);
-        const responseJson = await response.json();
-        const { error } = await responseJson;
-        if (!error) {
-            setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
-        } else {
-            setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+        try {
+            const response = await fetch(`${baseUrl}/export`, {
+                method: 'POST',
+                credentials: "include",
+            });
+            const responseJson = await response.json(); // remove unnecessary await
+            const { error } = responseJson;
+            if (!error) {
+                setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
+            } else {
+                setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+            }
+        } catch (err) {
+            setToastMessage({ type: 'error', text: 'Terjadi kesalahan saat export' });
+        } finally {
+            const timeout = setTimeout(() => {
+                setToastMessage(null);
+            }, 1500);
+            return () => clearTimeout(timeout); // cleanup
         }
-        setTimeout(() => {
-            setToastMessage(null);
-        }, 1500);
     }
 
     if (loading) {
@@ -98,25 +103,14 @@ export default async function UsersTable() {
                             <th className="font-semibold">Score</th>
                         </tr>
                     </thead>
-                    {/* BODY (Data Baris) */}
                     <tbody>
                         {usersData.map((user) => (
                             <tr key={user.id} onClick={() => handleRowClick(user.id)} className="hover:bg-gray-100 text-gray-900 transition-colors border border-gray-200 rounded-lg cursor-pointer text-center">
-                                <td>
-                                    <div className="font-bold">{user.peringkat}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.id}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.username}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.email}</div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">{user.score}</div>
-                                </td>
+                                <td><div className="font-bold">{user.peringkat}</div></td>
+                                <td><div className="font-bold">{user.id}</div></td>
+                                <td><div className="font-bold">{user.username}</div></td>
+                                <td><div className="font-bold">{user.email}</div></td>
+                                <td><div className="font-bold">{user.score}</div></td>
                             </tr>
                         ))}
                     </tbody>
