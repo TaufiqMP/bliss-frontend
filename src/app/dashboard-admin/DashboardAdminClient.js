@@ -90,7 +90,7 @@ export default function DashboardAdminClient({ user }) {
                                 <div className={`${inter.className} leading-tight mb-5 flex justify-between items-center w-full md:w-[92%]`}>
                                 </div>
                                 <div className="overflow-x-auto border border-gray-300 shadow-mdxl sm:rounded-lg">
-                                    <UsersTable />
+                                    <UsersTable userId={user.user_id}/>
                                 </div>
                             </div>
                         </div>

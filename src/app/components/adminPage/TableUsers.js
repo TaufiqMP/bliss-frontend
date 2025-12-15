@@ -4,7 +4,7 @@ import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
 import { useState, useEffect } from "react";
 
-export default function UsersTable() {
+export default function UsersTable({ userId }) {
     const baseUrl = `https://bliss-backend-production.up.railway.app`;
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -49,6 +49,10 @@ export default function UsersTable() {
         try {
             const response = await fetch(`${baseUrl}/export`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id : userId }),
                 credentials: "include",
             });
             const responseJson = await response.json(); // remove unnecessary await
