@@ -11,7 +11,7 @@ import ProtectedRoutesAdmin from "../components/ProtectedHocsAdmin";
 
 const inter = Inter({ subsets: ['latin'] });
 
-function AdminPageWithLayout({ user, userId }) {
+function AdminPageWithLayout({ userId }) {
     const currentGreeting = getGreeting();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState(null);
@@ -21,7 +21,7 @@ function AdminPageWithLayout({ user, userId }) {
     useEffect(() => {
         const nameAdmin = async () => {
             try {
-                const res = await fetch(`https://bliss-backend-production.up.railway.app/users/${user.user_id}`, {
+                const res = await fetch(`https://bliss-backend-production.up.railway.app/users/${userId}`, {
                     credentials: "include"
                 });
                 const data = await res.json();
@@ -31,7 +31,7 @@ function AdminPageWithLayout({ user, userId }) {
             }
         };
         nameAdmin();
-    }, [user.user_id]);
+    }, [userId]);
 
     const handleSave = async (e) => {
         e.preventDefault();
