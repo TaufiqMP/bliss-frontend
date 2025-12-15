@@ -5,7 +5,6 @@ import AlertError from "../Alert";
 import { decodeAccessToken } from "@/utils/jwt";
 import { useState, useEffect } from "react";
 import { getAccessToken } from "@/utils/cookies";
-import { decodeAccessToken } from "@/utils/jwt";
 
 export default async function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
