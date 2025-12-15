@@ -42,6 +42,7 @@ const getUsersById = async (id) => {
 const deleteUserById = async (id) => {
   const response = await fetch(`${BASE_URL}/users/${id}`, {
     method: "DELETE",
+    credentials: "include",
   });
   const responseJson = await response.json();
   if (responseJson.status !== "success") {
