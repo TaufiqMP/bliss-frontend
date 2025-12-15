@@ -6,7 +6,6 @@ import { decodeAccessToken } from "@/utils/jwt";
 import { useState, useEffect } from "react";
 import { getAccessToken } from "@/utils/cookies";
 import { decodeAccessToken } from "@/utils/jwt";
-import { exportLeaderboard } from "@/utils/api";
 
 export default async function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
@@ -14,8 +13,6 @@ export default async function UsersTable() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [toastMessage, setToastMessage] = useState(null);
-    const userId = await decodeAccessToken();
-
     const router = useRouter();
     const token = await getAccessToken();
     const userId = await decodeAccessToken(token);
