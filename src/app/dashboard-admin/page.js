@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import { CiExport } from "react-icons/ci";
 import { getGreeting } from "@/utils/timeUtils";
-import { getUsersById } from "@/utils/api";
 import CardAdmin from "../components/adminPage/CardAdmin";
 import { Inter } from 'next/font/google'
 import UsersTable from "../components/adminPage/TableUsers";
-import { uploadCSV } from "@/utils/api";
+import { updateCSV } from "@/utils/api";
 // import ProtectedRoutes from "../components/ProtectedHocs";
 import ProtectedRoutesAdmin from "../components/ProtectedHocsAdmin";
 
@@ -21,22 +20,22 @@ function AdminPage({ user }) {
 
 
     useEffect(() => {
-        const nameAdmin = async () => {
-            try {
-                const res = await fetch(`https://bliss-backend-production.up.railway.app/users/${user.user_id}`, {
-                    credentials: "include"
-                });
-                const data = await res.json();
+    const nameAdmin = async () => {
+                try {
+                    const res = await fetch(`https://bliss-backend-production.up.railway.app/users/${user.user_id}`, {
+                        credentials: "include"
+                    });
+                    const data = await res.json();
+                    
+                    setName(data?.data?.user?.username || "Data tidak ada!");
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            nameAdmin();
+        }, [user.user_id]);
 
-                setName(data?.data?.user?.username || "Data tidak ada!");
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        nameAdmin();
-    }, [user.user_id]);
-
-    const handleSave = async (e) => {
+        const handleSave = async (e) => {
         e.preventDefault();
 
         if (!selectedFile) {
@@ -78,7 +77,7 @@ function AdminPage({ user }) {
                             >
                                 <div className="flex items-center justify-center gap-1">
                                     <CiExport />
-                                    <p className="font-light">Input Dataset Nasabah</p>
+                                    <p className="font-light">Ganti Dataset Nasabah</p>
                                 </div>
                             </button>
                             <div className={`${inter.className} leading-tight mb-5 flex justify-between items-center w-full md:w-[92%]`}>
@@ -100,13 +99,13 @@ function AdminPage({ user }) {
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file_input">
                                     Upload file
                                 </label>
-                                <input
-                                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2"
-                                    id="file_input"
-                                    type="file"
-                                    accept=".csv"
-                                    onChange={(e) => setSelectedFile(e.target.files[0])}
-                                />
+                                    <input
+                                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2"
+                                        id="file_input"
+                                        type="file"
+                                        accept=".csv"
+                                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                                    />
                                 <p className="mt-1 text-sm text-gray-500" id="file_input_help">
                                     .csv
                                 </p>
@@ -122,9 +121,10 @@ function AdminPage({ user }) {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className={`${isLoading ? "bg-gray-400" : "bg-green-500 hover:bg-green-700"
-                                        } text-white font-bold py-2 px-4 rounded`}
-                                >
+                                    className={`${
+                                        isLoading ? "bg-gray-400" : "bg-green-500 hover:bg-green-700"
+                                    } text-white font-bold py-2 px-4 rounded`}
+                                    >
                                     {isLoading ? "Mengunggah..." : "Simpan"}
                                 </button>
                             </div>
