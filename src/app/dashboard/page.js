@@ -11,8 +11,6 @@ export default async function DashboardServer() {
 
   const topthree = await getTopThreeUsers();
 
-  const openClosed = await getCount(userId);
-
   const userData = await getUserData(userId, token);
 
   let data;

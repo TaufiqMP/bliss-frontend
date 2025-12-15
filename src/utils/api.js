@@ -42,6 +42,7 @@ const getUsersById = async (id) => {
 const deleteUserById = async (id) => {
   const response = await fetch(`${BASE_URL}/users/${id}`, {
     method: "DELETE",
+    credentials: "include",
   });
   const responseJson = await response.json();
   if (responseJson.status !== "success") {
@@ -308,5 +309,30 @@ const getNasabahSpecific = async (userId) => {
   }
 };
 
+const exportLeaderboard = async (userId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/export`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ user_id: userId }),
+    });
 
-export { getNasabahSpecific, getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getCountAdmin, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
+    const responseJson = await response.json();
+
+    if (responseJson.status !== "success") {
+      return { error: true, data: null };
+    }
+
+    return { error: false, data: responseJson.data };
+  } catch (error) {
+    console.error("export error:", error);
+    return { error: true, data: null };
+  }
+};
+
+
+
+export { exportLeaderboard, getNasabahSpecific, getNasabah, uploadImageUser, uploadCSV, updateUserProfile, getUserData, getCount, getCountAdmin, getSales, getTotalNasabah, getTotalNasabahPrioritas, getUsersById, deleteUserById, editUserData, editNasabahData, logoutUser, incrementLeaderboard, getTopThreeUsers };
