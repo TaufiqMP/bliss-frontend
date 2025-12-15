@@ -3,9 +3,8 @@ import { CiExport } from "react-icons/ci";
 import AlertSuccess from "../Alert-Succes";
 import AlertError from "../Alert";
 import { useState, useEffect } from "react";
-import { exportLeaderboard } from "@/utils/api";
 
-export default async function UsersTable({userId}) {
+export default function UsersTable() {
     const baseUrl = `https://bliss-backend-production.up.railway.app`
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -48,20 +47,18 @@ export default async function UsersTable({userId}) {
     };
 
     async function onExportHandler() {
-        try {
-            const responseJson = await exportLeaderboard(userId); 
-
-            const { error } = responseJson;
-
-            if (!error) {
-            setToastMessage({ type: "success", text: "report berhasil dieksport!" });
-            } else {
-            setToastMessage({ type: "error", text: "Gagal mengeksport report" });
-            }
-        } catch (err) {
-            setToastMessage({ type: "error", text: "Terjadi kesalahan saat export" });
-        } finally {
-            setTimeout(() => {
+        const response = await fetch(`${baseUrl}/export`, {
+            method: 'POST',
+            credentials: "include",
+        });
+        const responseJson = await response.json();
+        const { error } = await responseJson;
+        if (!error) {
+            setToastMessage({ type: 'success', text: 'report berhasil dieksport!' });
+        } else {
+            setToastMessage({ type: 'error', text: 'Gagal mengeksport report' });
+        }
+        setTimeout(() => {
             setToastMessage(null);
             }, 1500);
         }
